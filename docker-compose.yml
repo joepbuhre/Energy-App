@@ -16,6 +16,6 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - vueapp:/app
     ports:
-      - 3002:80
+      - ${DOCKER_PORT}:80
 volumes:
   vueapp:
