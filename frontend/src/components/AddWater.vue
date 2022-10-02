@@ -121,7 +121,7 @@ const minVLValue = computed(() => {
 
 const getMinima = (_: void) => {
     api.post('/query', {
-        query: 'select top 1 CAST(CreatedAt as smalldatetime) [CreatedAt],GigaJoule, Volume from _iu_vw_NormalizedDataWater order by CreatedAt desc'
+        query: 'select * from _iu_vw_LastEntriesWater'
     })
         .then((res: AxiosResponse) => {
             minGJ.value = res.data?.[0]?.[0]?.GigaJoule || '0'
