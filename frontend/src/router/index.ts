@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import AddWater from "../components/AddWater.vue";
-import Login from "../components/Login.vue";
+import AddWater from "../views/AddWater.vue";
+import Login from "../views/Login.vue";
 import HomeView from "../views/HomeView.vue";
 
 const routes = [

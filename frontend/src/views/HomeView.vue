@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <h1>Hi</h1>
+        <KPI />
         <div class="links">
             <router-link v-for="link in links" :to="{ name: link.target }">
                 <div class="link-wrapper">
@@ -13,6 +14,8 @@
 </template>
 
 <script lang="ts" setup>
+import KPI from '../components/KPI.vue';
+
 type linkObject = {
     name: string;
     target: string;
