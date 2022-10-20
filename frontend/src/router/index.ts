@@ -2,10 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import AddWater from "../views/AddWater.vue";
 import Login from "../views/Login.vue";
 import HomeView from "../views/HomeView.vue";
+import TestCookie from "../views/TestCookie.vue";
 
 const routes = [
     {
-        name: "Home",
+        name: "Home", 
         path: "/",
         component: HomeView,
     },
@@ -19,6 +20,11 @@ const routes = [
         path: "/Login",
         component: Login,
     },
+    {
+        name: 'TestCookie',
+        path: '/testcookie',
+        component: TestCookie
+    }
     // { path: '/about', component: About },
 ];
 

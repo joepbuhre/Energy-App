@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { QueryDB } from "../../utils/backend/db";
 import { logger } from "../../utils/logger";
 import mssql from "mssql";
-import bankapi from '../../utils/backend/bankkapi'
+import bankapi from '../../utils/backend/nordigen'
 
 const query = Router();
 

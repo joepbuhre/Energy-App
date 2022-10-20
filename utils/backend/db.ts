@@ -36,5 +36,17 @@ const QueryDB = (query: any) : Promise<mssql.IResult<any>> => {
     })
 }
 
+const createConn = (): Promise<mssql.ConnectionPool|undefined> => {
+    return new mssql.ConnectionPool(mssqlconfig)
+        .connect()
+        .then(pool => {
+        console.log('Connected to MSSQL')
+        return pool
+        })
+        .catch(err => {
+            console.log('Database Connection Failed! Bad Config: ', err)
+            return undefined
+        })
+}
 
-export { QueryDB }
+export { QueryDB, mssql, createConn }
