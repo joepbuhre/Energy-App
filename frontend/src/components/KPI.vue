@@ -36,9 +36,15 @@ const curFormatter = new Intl.NumberFormat("nl-NL", {
     currency: "EUR",
 });
 
-onMounted(() => {
+onMounted(async () => {
+    const EnnatuurlijkGeld = (await api.post('/query', {
+        query: `select dbo._iu_fn_GetConfig('EnnatuurlijkGeld') [Geld]`
+    })).data?.[0]?.[0]?.Geld
+
+    PaidEuros.value = EnnatuurlijkGeld
+
     api.post("/query", {
-        query: "select * from _iu_fn_calcNettCostWater(384)",
+        query: `select * from _iu_fn_calcNettCostWater(${PaidEuros.value})`,
     }).then((res: AxiosResponse) => {
         const result = res.data?.[0]?.[0];
         FromDate.value = new Date(result.FromDate);
@@ -47,6 +53,9 @@ onMounted(() => {
         TotEstCosts.value = result.TotEstCosts;
         NetLeft.value = result.NetLeft;
     });
+
+    
+
 });
 </script>
 
