@@ -14,11 +14,6 @@ query.post("/", (req: Request, res: Response): void => {
 });
 
 query.post("/AddWater", (req: Request, res: Response): void => {
-    // const body = {
-    //     GigaJoule: null,
-    //     Volume: null
-    // }
-
     QueryDB(
         `exec InsertRow @Json = '${JSON.stringify(req.body)}', @UsageType = 2`
     ).then((result: mssql.IResult<any>) => {

@@ -9,54 +9,72 @@
                             <label for="GigaJoule" class="form-label"
                                 >GigaJoule</label
                             >
-                            <div class="input-group">
-                                <input
-                                    type="number"
-                                    :min="minGJValue?.toString()"
-                                    step="0.01"
-                                    v-model="ValueGJ"
-                                    required
-                                    :placeholder="getPlaceholderGJ"
-                                    class="form-control"
-                                    name="GigaJoule"
-                                    id="GigaJoule"
-                                    :disabled="!MaySubmit"
-                                />
-                                <span class="input-group-text" id="basic-addon2"
-                                    >GJ</span
+                            <div class="form-group-2">
+                                <button
+                                    class="btn alter-number"
+                                    type="button"
+                                    @click="decrementGJ"
                                 >
+                                    -
+                                </button>
+                                <div>
+                                    <span
+                                        class="number-try"
+                                        v-for="number in GJString"
+                                    >
+                                        {{ number }}
+                                    </span>
+                                </div>
+                                <button
+                                    class="btn alter-number"
+                                    type="button"
+                                    @click="incrementGJ"
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="Volume">Volume</label>
-                            <div class="input-group">
-                                <input
-                                    type="number"
-                                    :min="minVLValue?.toString()"
-                                    v-model="ValueVL"
-                                    class="form-control"
-                                    :placeholder="getPlaceholderVL"
-                                    name="Volume"
-                                    id="Volume"
-                                    step="0.01"
-                                    :disabled="!MaySubmit"
-                                />
-                                <span class="input-group-text" id="basic-addon2"
-                                    >M&sup3;</span
+                            <div class="form-group-2">
+                                <button
+                                    class="btn alter-number"
+                                    type="button"
+                                    @click="decrementVL"
                                 >
+                                    -
+                                </button>
+                                <div>
+                                    <span
+                                        :class="
+                                            number === ',' || number === '.'
+                                                ? ''
+                                                : 'number-try'
+                                        "
+                                        v-for="number in VLString"
+                                    >
+                                        {{ number }}
+                                    </span>
+                                </div>
+                                <button
+                                    class="btn alter-number"
+                                    type="button"
+                                    @click="incrementVL"
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="Waterdate">Datum</label>
-                            <input
+                            <label for="Comments">Comments</label>
+                            <textarea
                                 type="datetime-local"
-                                v-model="ValueDate"
+                                v-model="ValueComments"
                                 class="form-control"
-                                step="1"
                                 :disabled="!MaySubmit"
-                            />
+                            ></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn btn-primary submit">
                             Submit
                         </button>
                     </form>
@@ -71,90 +89,147 @@ import { computed } from "@vue/reactivity";
 import { AxiosResponse } from "axios";
 import { onMounted, ref } from "vue";
 import { api } from "../../../utils/frontend/api";
+import { number } from "../../../utils/frontend/formatters";
+import { useNotifications } from "../store/notification";
 
 type AddWaterSubmit = {
-    GigaJoule: number|null,
-    Volume: number|null,
-    CustomDate?: string
-}
+    GigaJoule: number;
+    Volume: number;
+    CustomDate?: string;
+};
 
-const MaySubmit = ref<boolean>(false)
+const MaySubmit = ref<boolean>(false);
 
+const not = useNotifications()
 const submitForm = (e: any) => {
-    const PostData:AddWaterSubmit = {
+    if (
+        ValueGJ.value === 0 ||
+        ValueVL.value === 0 ||
+        ValueGJ.value === undefined ||
+        ValueVL.value === undefined
+    ) {
+        return false;
+    }
+    const PostData: AddWaterSubmit = {
         GigaJoule: ValueGJ.value,
-        Volume: ValueVL.value
-    }
-    if(ValueDate.value) {
-        PostData['CustomDate'] = ValueDate.value
+        Volume: ValueVL.value,
+    };
+    if (ValueComments.value) {
+        PostData["CustomDate"] = ValueComments.value;
     }
 
-    api
-        .post("/query/AddWater", PostData)
-        .then((res: AxiosResponse) => {
-            if(res.status = 200) {
-                getMinima()
-                ValueGJ.value = null
-                ValueVL.value = null
-                ValueDate.value = null
-            }
+    api.post("/query/AddWater", PostData)
+    .then((res: AxiosResponse) => {
+        if ((res.status = 200)) {
+            getMinima();
+            ValueComments.value = "";
+            not.Add({
+                body: 'Succesvol opgeslagen!'
+            })
+        }
+    })
+    .catch(err => {
+        not.Add({
+            body: 'Iets ging er fout...'
         })
-}
+    })
+    ;
+};
 
-const minGJ = ref<string|null>(null)
-const minVL = ref<string|null>(null)
+const GJString = computed(() => number.format(ValueGJ.value) || []);
 
-const minGJValue = computed(() => {
-    if(ValueDate.value !== null && ValueDate.value !== '') {
-        return false
-    } else {
-        return minGJ.value
+const VLString = computed(() => number.format(ValueVL.value) || []);
+const step = 0.01;
+
+const incrementGJ = () => {
+    if (ValueGJ.value && ValueGJ.value + step > parseFloat(minGJ.value)) {
+        ValueGJ.value += step;
     }
-})
-const minVLValue = computed(() => {
-    if(ValueDate.value !== null && ValueDate.value !== '') {
-        return false
-    } else {
-        return minVL.value
+};
+
+const decrementGJ = () => {
+    if (ValueGJ.value && ValueGJ.value - step >= parseFloat(minGJ.value)) {
+        ValueGJ.value -= step;
     }
-})
+};
+
+const incrementVL = () => {
+    if (ValueVL.value && ValueVL.value + step > parseFloat(minVL.value)) {
+        ValueVL.value += step;
+    }
+};
+
+const decrementVL = () => {
+    if (ValueVL.value && ValueVL.value - step >= parseFloat(minVL.value)) {
+        ValueVL.value -= step;
+    }
+};
+
+const minGJ = ref<string>("0");
+const minVL = ref<string>("0");
 
 const getMinima = (_: void) => {
-    api.post('/query', {
-        query: 'select * from _iu_vw_LastEntriesWater'
-    })
-        .then((res: AxiosResponse) => {
-            minGJ.value = res.data?.[0]?.[0]?.GigaJoule || '0'
-            minVL.value = res.data?.[0]?.[0]?.Volume || '0'
-            MaySubmit.value= true
-        })
-}
+    api.post("/query", {
+        query: "select * from _iu_vw_LastEntriesWater",
+    }).then((res: AxiosResponse) => {
+        minGJ.value = res.data?.[0]?.[0]?.GigaJoule || "0";
+        minVL.value = res.data?.[0]?.[0]?.Volume || "0";
+        MaySubmit.value = true;
+
+        ValueVL.value = parseFloat(minVL.value);
+        ValueGJ.value = parseFloat(minGJ.value);
+    });
+};
 
 onMounted(() => {
-    getMinima()
-})
+    getMinima();
+});
 
-const getPlaceholderGJ = computed(() => {
-    if(minGJ.value && (ValueDate.value === null || ValueDate.value === '')) {
-        return `minimum: ${minGJ.value} GJ`
-    } else {
-        return ''
-    }
-})
-const getPlaceholderVL = computed(() => {
-    if(minVL.value && (ValueDate.value === null || ValueDate.value === '')) {
-        return `minimum: ${minVL.value} M3`
-    } else {
-        return ''
-    }
-})
+const getPlaceholderGJ = computed(() => `minimum: ${minGJ.value} GJ`);
 
-const ValueGJ = ref<number|null>(null);
-const ValueVL = ref<number|null>(null);
-const ValueDate = ref<string|null>(null);
+const getPlaceholderVL = computed(() => `minimum: ${minVL.value} M3`);
+
+const ValueGJ = ref<number>(0);
+const ValueVL = ref<number>(0);
+const ValueComments = ref<string>("");
 </script>
 
 <style lang="scss" scoped>
+.number-try {
+    border: thin gray solid;
+    border-radius: 2px;
+    font-size: 1.7rem;
+    padding: 5px;
+    margin: 2px;
+}
+.form-group-2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 14px;
+    .alter-number {
+        touch-action: manipulation;
+        width: auto;
+        flex-grow: 1;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently */
+        &:first-of-type {
+            text-align: left;
+        }
+        &:last-of-type {
+            text-align: right;
+        }
+    }
+}
+.submit {
+    margin-top: 1rem;
+    width: 100%;
+}
 .container {
     margin-top: 20px;
 }
