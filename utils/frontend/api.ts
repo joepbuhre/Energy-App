@@ -7,10 +7,8 @@ import axios, {
 import router from "../../frontend/src/router";
 import { useMain } from "../../frontend/src/store/main";
 
-const baseURL = (import.meta.env.PROD ? import.meta.env.VITE_PROD_API_URL : import.meta.env.VITE_DEV_API_URL )
-
 const api: AxiosInstance = axios.create({
-    baseURL: baseURL,
+    baseURL: '/api',
 });
 
 api.interceptors.request.use((config: AxiosRequestConfig) => {

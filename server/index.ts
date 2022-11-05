@@ -5,6 +5,9 @@ import * as dotenv from "dotenv";
 import query from "./routes/query";
 import auth from "./routes/auth";
 import { isLoggedIn } from "./controllers/auth.controller";
+import cookieParser from 'cookie-parser'
+import init from "./models/preparedb.model";
+import bank from "./routes/bank";
 
 dotenv.config({
     path: __dirname + '/.env'
@@ -15,8 +18,12 @@ const logger = new Logger("SILLY");
 const app = express();
 const port = 5000;
 
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser())
 
 const router = Router();
 
@@ -26,12 +33,17 @@ router.use("*", isLoggedIn);
 
 router.use("/query", query);
 
+router.use('/bank', bank)
+
 router.get("/", (req: Request, res: Response) => {
     res.json({ greeting: "Hello world!" });
 });
 
 app.use("/api", router);
 
-app.listen(port, () => {
-    logger.log(`🚀 server started at http://localhost:${port}`);
-});
+init().then(res => {
+    logger.log('DB Migration are succesful')
+    app.listen(port, () => {
+        logger.log(`🚀 server started at http://localhost:${port}`);
+    });    
+})
