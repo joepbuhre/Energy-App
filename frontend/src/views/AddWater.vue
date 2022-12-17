@@ -14,7 +14,9 @@
                                     class="btn alter-number"
                                     type="button"
                                     @mousedown="alterGJ2(false)"
+                                    @touchstart="alterGJ2(false)"
                                     @mouseup="incrementStop"        
+                                    @touchend="incrementStop"        
                                 >
                                     -
                                 </button>
@@ -31,7 +33,10 @@
                                     type="button"
                                     @mousedown="alterGJ2(true)"
                                     @mouseup="incrementStop"        
+                                    @touchstart="alterGJ2(true)"
+                                    @touchend="incrementStop"       
                                 >
+
                                     +
                                 </button>
                             </div>
@@ -43,7 +48,10 @@
                                     class="btn alter-number"
                                     type="button"
                                     @mousedown="incrementVL2(false)"
-                                    @mouseup="incrementStop"                                >
+                                    @touchstart="incrementVL2(false)"
+                                    @mouseup="incrementStop"                                
+                                    @touchend="incrementStop"                                
+                                >
                                     -
                                 </button>
                                 <div>
@@ -62,7 +70,9 @@
                                     class="btn alter-number"
                                     type="button"
                                     @mousedown="incrementVL2(true)"
+                                    @touchstart="incrementVL2(true)"
                                     @mouseup="incrementStop"
+                                    @touchend="incrementStop"
                                 >
                                     +
                                 </button>
