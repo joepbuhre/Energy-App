@@ -13,7 +13,7 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @mousedown="alterGJ2(false)"
+                                    @mousedown="alterGJ2(false, true)"
                                     @touchstart="alterGJ2(false)"
                                     @mouseup="incrementStop"        
                                     @touchend="incrementStop"        
@@ -31,7 +31,7 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @mousedown="alterGJ2(true)"
+                                    @mousedown="alterGJ2(true, true)"
                                     @mouseup="incrementStop"        
                                     @touchstart="alterGJ2(true)"
                                     @touchend="incrementStop"       
@@ -47,8 +47,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @mousedown="incrementVL2(false)"
-                                    @touchstart="incrementVL2(false)"
+                                    @mousedown="alterVL2(false, true)"
+                                    @touchstart="alterVL2(false)"
                                     @mouseup="incrementStop"                                
                                     @touchend="incrementStop"                                
                                 >
@@ -69,8 +69,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @mousedown="incrementVL2(true)"
-                                    @touchstart="incrementVL2(true)"
+                                    @mousedown="alterVL2(true, true)"
+                                    @touchstart="alterVL2(true)"
                                     @mouseup="incrementStop"
                                     @touchend="incrementStop"
                                 >
@@ -157,28 +157,30 @@ const step = 0.01;
 const intervalVal = ref<number>(0)
 const timeoutVal = ref<number>(0)
 
-const incrementVL2 = (up:boolean, fastness = 200, timeout = 1000) => {
-    alterVL(up)
-
+const alterVL2 = (up:boolean, isMobile = false, fastness = 200, timeout = 1000) => {
+    if(isMobile === false) { 
+        alterVL(up)
+    }
     intervalVal.value = setInterval(() => alterVL(up), fastness);
     
     timeoutVal.value = setTimeout(() => {
         if(intervalVal.value > 0) {
             incrementStop()
-            incrementVL2(up, fastness * 0.6, timeout * 1.2)
+            alterVL2(up,isMobile, fastness * 0.6, timeout * 1.2)
         }
     }, timeout);
 }
 
-const alterGJ2 = (up:boolean, fastness = 200, timeout = 1000) => {
-    alterGJ(up)
-
+const alterGJ2 = (up:boolean, isMobile = false, fastness = 200, timeout = 1000) => {
+    if(isMobile === false) { 
+        alterGJ(up)
+    }
     intervalVal.value = setInterval(() => alterGJ(up), fastness);
     
     timeoutVal.value = setTimeout(() => {
         if(intervalVal.value > 0) {
             incrementStop()
-            alterGJ2(up, fastness * 0.6, timeout * 1.2)
+            alterGJ2(up,isMobile, fastness * 0.6, timeout * 1.2)
         }
     }, timeout);
 }
