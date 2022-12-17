@@ -13,7 +13,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @click="decrementGJ"
+                                    @mousedown="alterGJ2(false)"
+                                    @mouseup="incrementStop"        
                                 >
                                     -
                                 </button>
@@ -28,7 +29,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @click="incrementGJ"
+                                    @mousedown="alterGJ2(true)"
+                                    @mouseup="incrementStop"        
                                 >
                                     +
                                 </button>
@@ -40,8 +42,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @click="decrementVL"
-                                >
+                                    @mousedown="incrementVL2(false)"
+                                    @mouseup="incrementStop"                                >
                                     -
                                 </button>
                                 <div>
@@ -59,7 +61,8 @@
                                 <button
                                     class="btn alter-number"
                                     type="button"
-                                    @click="incrementVL"
+                                    @mousedown="incrementVL2(true)"
+                                    @mouseup="incrementStop"
                                 >
                                     +
                                 </button>
@@ -140,6 +143,81 @@ const GJString = computed(() => number.format(ValueGJ.value) || []);
 
 const VLString = computed(() => number.format(ValueVL.value) || []);
 const step = 0.01;
+
+const intervalVal = ref<number>(0)
+const timeoutVal = ref<number>(0)
+
+const incrementVL2 = (up:boolean, fastness = 200, timeout = 1000) => {
+    alterVL(up)
+
+    intervalVal.value = setInterval(() => alterVL(up), fastness);
+    
+    timeoutVal.value = setTimeout(() => {
+        if(intervalVal.value > 0) {
+            incrementStop()
+            incrementVL2(up, fastness * 0.6, timeout * 1.2)
+        }
+    }, timeout);
+}
+
+const alterGJ2 = (up:boolean, fastness = 200, timeout = 1000) => {
+    alterGJ(up)
+
+    intervalVal.value = setInterval(() => alterGJ(up), fastness);
+    
+    timeoutVal.value = setTimeout(() => {
+        if(intervalVal.value > 0) {
+            incrementStop()
+            alterGJ2(up, fastness * 0.6, timeout * 1.2)
+        }
+    }, timeout);
+}
+
+
+const alterVL = (up = true) => {
+    if (ValueVL.value && ValueVL.value + step >= parseFloat(minVL.value)) {
+        if(up === true) {
+            ValueVL.value += step;
+        } else {
+            ValueVL.value -= step;
+        }
+    } else {
+        ValueVL.value = parseFloat(minVL.value)
+    }
+};
+
+const alterGJ = (up = true) => {
+    if (ValueGJ.value && ValueGJ.value + step >= parseFloat(minGJ.value)) {
+        if(up === true) {
+            ValueGJ.value += step;
+        } else {
+            ValueGJ.value -= step;
+        }
+    } else {
+        ValueGJ.value = parseFloat(minGJ.value)
+    }
+};
+
+const incrementGJ2 = (fastness = 200, timeout = 1000) => {
+    incrementGJ()
+
+    intervalVal.value = setInterval(incrementGJ, fastness);
+    
+    timeoutVal.value = setTimeout(() => {
+        if(intervalVal.value > 0) {
+            incrementStop()
+            incrementGJ2(fastness = fastness * 0.6, timeout = timeout * 1.2)
+        }
+    }, timeout);
+}
+
+const incrementStop = () => {
+    clearInterval(intervalVal.value)
+    clearTimeout(timeoutVal.value)
+    intervalVal.value = 0
+    timeoutVal.value = 0
+}
+
 
 const incrementGJ = () => {
     if (ValueGJ.value && ValueGJ.value + step > parseFloat(minGJ.value)) {

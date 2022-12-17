@@ -1,0 +1,6 @@
+{
+    "name": "Energy App",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dev",
+    "workspaceFolder": "/workspace"
+}

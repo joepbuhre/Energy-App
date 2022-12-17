@@ -1,0 +1,8 @@
+version: '3.6'
+services:
+  dev:
+    image: node:19.3.0-bullseye
+    volumes:
+      - ..:/workspace:cached
+
+    command: /bin/sh -c "while sleep 1000; do :; done"  
