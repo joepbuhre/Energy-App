@@ -1,8 +1,9 @@
 import { Router, Request, Response } from "express";
-import { QueryDB } from "../../utils/backend/db";
-import { logger } from "../../utils/logger";
+import { QueryDB } from "../utils/db";
+import { logger } from "../utils/logger";
 import mssql from "mssql";
-import bankapi from '../../utils/backend/nordigen'
+import bankapi from '../utils/nordigen'
+import { addWater } from "../controllers/addwater.controller";
 
 const query = Router();
 
@@ -13,14 +14,7 @@ query.post("/", (req: Request, res: Response): void => {
     });
 });
 
-query.post("/AddWater", (req: Request, res: Response): void => {
-    QueryDB(
-        `exec InsertRow @Json = '${JSON.stringify(req.body)}', @UsageType = 2`
-    ).then((result: mssql.IResult<any>) => {
-        logger.debug(result);
-        res.send(result);
-    });
-});
+query.post("/AddWater", addWater);
 
 query.get("/tset", (req: Request, res: Response): void => {
     bankapi.get('/test')

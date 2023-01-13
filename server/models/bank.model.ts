@@ -1,4 +1,4 @@
-import bankapi from "../../utils/backend/nordigen"
+import bankapi from "../utils/nordigen"
 
 const getTransactions = ():Promise<any>=> {
     return new Promise((resolve, reject) => {

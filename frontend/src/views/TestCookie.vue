@@ -5,7 +5,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
-import { api } from "../../../utils/frontend/api";
+import { api } from "../utils/api";
 
 
 const challenge = ref<string>('')

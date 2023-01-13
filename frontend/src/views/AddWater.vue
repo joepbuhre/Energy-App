@@ -101,8 +101,8 @@
 import { computed } from "@vue/reactivity";
 import { AxiosResponse } from "axios";
 import { onMounted, ref } from "vue";
-import { api } from "../../../utils/frontend/api";
-import { number } from "../../../utils/frontend/formatters";
+import { api } from "../utils/api";
+import { number } from "../utils/formatters";
 import { useNotifications } from "../store/notification";
 
 type AddWaterSubmit = {

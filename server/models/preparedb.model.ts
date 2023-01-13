@@ -1,4 +1,4 @@
-import { createConn, mssql } from "../../utils/backend/db"
+import { createConn, mssql } from "../utils/db"
 
 const init = async (): Promise<void> => {
     const conn:mssql.ConnectionPool|undefined = await createConn()

@@ -18,7 +18,7 @@
         "vite/client"
       ]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "../utils/frontend/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "frontend/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
 

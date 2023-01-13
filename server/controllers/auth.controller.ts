@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { Router, Request, Response, NextFunction } from "express";
-import { logger } from "../../utils/logger";
+import { logger } from "../utils/logger";
 
 const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     const bearer = req?.headers?.authorization?.split(" ");

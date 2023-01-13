@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import * as dotenv from 'dotenv'
 import { IResult } from "mssql";
-import {QueryDB} from '../../utils/backend/db'
+import {QueryDB} from '../../server/utils/db'
 
 dotenv.config({
     path: 'server/.env'

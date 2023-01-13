@@ -14,7 +14,7 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true
   },
-  "include": ["./**/*.ts", "./**/*.d.ts", "./**/*.tsx", "../utils/backend/**/*.ts"],
+  "include": ["./**/*.ts", "./index.d.ts" ,"./**/*.d.ts", "./**/*.tsx", "../**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
 

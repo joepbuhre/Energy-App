@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express'
 import { signToken } from '../controllers/auth.controller'
 import crypto from 'crypto'
-import { logger } from '../../utils/logger'
+import { logger } from '../utils/logger'
 import cbor from 'cbor'
-import { QueryDB } from '../../utils/backend/db'
+import { QueryDB } from '../utils/db'
 
 const auth = Router()
 

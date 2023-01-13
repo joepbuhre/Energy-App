@@ -1,5 +1,5 @@
 import mssql, {config} from 'mssql'
-import { logger } from '../logger';
+import { logger } from './logger';
 import * as dotenv from 'dotenv'
 import { readFileSync } from 'fs';
 import { resolve } from 'path';

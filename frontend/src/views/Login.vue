@@ -24,8 +24,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { api } from '../../../utils/frontend/api';
-import { logger } from '../../../utils/logger';
+import { api } from '../utils/api';
+import { logger } from '../../../server/utils/logger';
 import { useMain } from '../store/main';
 
 const UserName = ref<String>('')

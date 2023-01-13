@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { AxiosResponse } from "axios";
 import { onMounted, ref } from "vue";
-import { api } from "../../../utils/frontend/api";
+import { api } from "../utils/api";
 
 const FromDate = ref<Date | null>(null);
 const ToDate = ref<Date | null>(null);

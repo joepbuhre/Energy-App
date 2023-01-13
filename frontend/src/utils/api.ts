@@ -4,8 +4,8 @@ import axios, {
     AxiosRequestConfig,
     AxiosResponse,
 } from "axios";
-import router from "../../frontend/src/router";
-import { useMain } from "../../frontend/src/store/main";
+import router from "../router";
+import { useMain } from "../store/main";
 
 const api: AxiosInstance = axios.create({
     baseURL: '/api',

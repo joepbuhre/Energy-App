@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import * as dotenv from "dotenv";
 import { IResult } from "mssql";
-import { logger } from "../logger";
+import { logger } from "./logger";
 import { createConn, mssql, QueryDB } from "./db";
 import FormData from "form-data";
 

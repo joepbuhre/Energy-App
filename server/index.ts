@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import Logger from "../utils/logger";
+import Logger from "./utils/logger";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import query from "./routes/query";
