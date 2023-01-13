@@ -42,7 +42,9 @@ export const publish = async (topic: string|string[], data: string|object): Prom
         mess = data
     }
 
-    await client.publish(top, mess)
+    await client.publish(top, mess, {
+        retain: true
+    })
     await client.end();
 
     return Promise.resolve()

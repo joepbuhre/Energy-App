@@ -10,7 +10,7 @@
     "d-restart": "docker-compose down --rmi local && docker volume prune -f && docker-compose up -d",
     "d-logs": "docker-compose logs -f --tail=100",
     "d-down": "docker-compose down --rmi local && docker volume prune -f ",
-    "build": "npm run build:frontend && npm run build:server && docker build . -t energyapp",
+    "build": "npm i && npm run build:frontend && npm run build:server && docker build . -t energyapp",
     "build:frontend": "vue-tsc -p ./frontend/tsconfig.json --noEmit && vite build ./frontend --emptyOutDir",
     "build:server": "npx tsc -p ./server/tsconfig.json",
     "preview": "vite preview"
