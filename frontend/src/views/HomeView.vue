@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { api } from '../../../utils/frontend/api';
+import { api } from '../utils/api';
 import KPI from '../components/KPI.vue';
 
 

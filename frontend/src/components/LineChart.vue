@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { Line } from 'vue-chartjs'
 
-import { api } from '../../../utils/frontend/api'
+import { api } from '../utils/api'
 
 import {
   Chart as ChartJS,
